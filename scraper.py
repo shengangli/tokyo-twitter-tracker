@@ -63,6 +63,21 @@ def get_counts():
     label4 = soup4.find("label", {"for": "la13115012"})
     results["kamiogi_rent"] = label4.find("span", class_="searchitem-list-value").text.strip("()").replace(",", "") if label4 else "0"
 
+    # 5. nishiogikita (rent)
+    res4 = requests.get("https://suumo.jp/jj/chintai/kensaku/FR301FB002/?ar=030&bs=040&ta=13&sc=13115&cb=0.0&ct=9999999&et=9999999&cn=9999999&mb=0&mt=9999999&shkr1=03&shkr2=03&shkr3=03&shkr4=03&fw2=&srch_navi=1", headers=headers)
+    res4.encoding = res4.apparent_encoding
+    soup4 = BeautifulSoup(res4.text, "html.parser")
+    label4 = soup4.find("label", {"for": "la13115026"})
+    results["nishiogikita_rent"] = label4.find("span", class_="searchitem-list-value").text.strip("()").replace(",", "") if label4 else "0"
+
+    # 6. kamiogi (sale)
+    res2 = requests.get("https://suumo.jp/jj/bukken/kensaku/JJ010FB009/?ar=030&bs=011&ta=13&jspIdFlg=patternShikugun&sc=13115&kb=1&kt=9999999&mb=0&mt=9999999&ekTjCd=&ekTjNm=&tj=0&cnb=0&cn=9999999", headers=headers)
+    res2.encoding = res2.apparent_encoding
+    soup2 = BeautifulSoup(res2.text, "html.parser")
+    label2 = soup2.find("label", {"for": "13115012"})
+    results["nishiogikita_sale"] = label2.find("span", class_="searchitem-list-value").text.strip("()").replace(",", "") if label2 else "0"
+
+
     return results
 
 if __name__ == "__main__":
